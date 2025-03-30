@@ -1,0 +1,14 @@
+{
+  "name": "microshot",
+  "version": "1.0.0",
+  "description": "Take some screen shot. and detect difference.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "screenshot"
+  ],
+  "author": "nobuoJT",
+  "license": "ISC"
+}
