@@ -1,6 +1,6 @@
 {
   "name": "microshot",
-  "version": "1.0.0-alpha1",
+  "version": "1.0.0-alpha2",
   "description": "Take some screen shot. and detect difference.",
   "main": "index.js",
   "scripts": {
@@ -10,5 +10,8 @@
     "screenshot"
   ],
   "author": "nobuoJT",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.8.2"
+  }
 }
