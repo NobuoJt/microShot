@@ -1,6 +1,7 @@
 # microShot : screen shot tool
 
 ## usage
+```node src/index.js```
 
 ### ```L``` Show window List (info by window Table/ appName List)
 ### ```Right Ctrl``` One shot capture
