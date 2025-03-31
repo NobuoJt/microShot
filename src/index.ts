@@ -1,29 +1,60 @@
 const fs = require("fs");
-const { Monitor } = require("node-screenshots");
+import { existsSync, mkdir, mkdirSync, readFileSync } from "fs";
+import { readFile } from "fs/promises";
+import { Window } from "node-screenshots";
+const { GlobalKeyboardListener } = require('node-global-key-listener');
 
-let monitor = Monitor.fromPoint(100, 100);
+let windows = Window.all();
+const keyboard = new GlobalKeyboardListener();
 
-console.log(monitor, monitor.id);
+console.log("'L' key to print window List.\n'R Ctrl' to Capture.\n'Esc' to exit.")
 
-let image = monitor.captureImageSync();
-fs.writeFileSync(`${monitor.id}-sync.png`, image.toPngSync());
+keyboard.addListener((event:any) => {//キーボードイベント割り込み(フォーカス無視)
+    //console.log(event); //キーイベント表示
+    if (event.name === 'ESCAPE' && event.state === 'DOWN') {
+        console.log('Esc key pressed, exiting...');
+        process.exit();
+    }
+    if (event.name === 'L' && event.state === 'DOWN') {
+        windows.forEach((item:any) => {
+            console.table({
+                id: item.id,
+                appName: item.appName,
+                title: item.title,
+                currentMonitor: item.currentMonitor.id,
+                x: item.x,
+                y: item.y,
+                width: item.width,
+                height: item.height,
+                //rotation: item.rotation,
+                //scaleFactor: item.scaleFactor,
+                //isPrimary: item.isPrimary,
+                isMinimized: item.isMinimized,
+                isMaximized: item.isMaximized,
+            });
+        });
+        
+        windows.forEach((item:any) => {
+            console.log({
+                appName: item.appName,
+            });
+        });
+    }
+    let date=new Date()
+    if (event.name === 'RIGHT CTRL' && event.state === 'DOWN') {
 
-monitor.captureImage().then((data:any) => {
-    console.log(data);
-    fs.writeFileSync(`${monitor.id}.jpeg`, data.toJpegSync());
+        readFileSync(".secret_targetWindows",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
+            windows.forEach((item:any) => {
+                if(item.appName==tg_window){
+                    let image=item.captureImageSync()
+                    let filename = `pix/${item.appName}_${date.toLocaleString().replace(/\//g,"_").replace(/:/g,"_")}.png`
+                    fs.writeFileSync(filename, image.toPngSync());
+                    console.log("saved "+filename)
+                }
+            });
+        })
+    }
 });
 
-let monitors = Monitor.all();
 
-monitors.forEach((capturer:any) => {
-    console.log({
-    id: capturer.id,
-    x: capturer.x,
-    y: capturer.y,
-    width: capturer.width,
-    height: capturer.height,
-    rotation: capturer.rotation,
-    scaleFactor: capturer.scaleFactor,
-    isPrimary: capturer.isPrimary,
-    });
-});
+
