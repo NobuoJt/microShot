@@ -8,6 +8,7 @@ let windows = Window.all();
 const keyboard = new GlobalKeyboardListener();
 
 console.log("'L' key to print window List.\n'R Ctrl' to Capture.\n'Esc' to exit.")
+//説明
 
 keyboard.addListener((event:any) => {//キーボードイベント割り込み(フォーカス無視)
     //console.log(event); //キーイベント表示
@@ -15,7 +16,7 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
         console.log('Esc key pressed, exiting...');
         process.exit();
     }
-    if (event.name === 'L' && event.state === 'DOWN') {
+    if (event.name === 'L' && event.state === 'DOWN') {//L ウィンドウリストの表示
         windows.forEach((item:any) => {
             console.table({
                 id: item.id,
@@ -34,21 +35,21 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
             });
         });
         
-        windows.forEach((item:any) => {
+        windows.forEach((item:any) => {//アプリ名のみ
             console.log({
                 appName: item.appName,
             });
         });
     }
     let date=new Date()
-    if (event.name === 'RIGHT CTRL' && event.state === 'DOWN') {
+    if (event.name === 'RIGHT CTRL' && event.state === 'DOWN') {//右コントロール　スクショ
 
         readFileSync(".secret_targetWindows",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
             windows.forEach((item:any) => {
                 if(item.appName==tg_window){
                     let image=item.captureImageSync()
                     let filename = `pix/${item.appName}_${date.toLocaleString().replace(/\//g,"_").replace(/:/g,"_")}.png`
-                    fs.writeFileSync(filename, image.toPngSync());
+                    fs.writeFileSync(filename, image.toPngSync());//pix以下に保存
                     console.log("saved "+filename)
                 }
             });
