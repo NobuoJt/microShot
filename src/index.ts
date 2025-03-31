@@ -53,7 +53,7 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
     let date=new Date()
     if (event.name === 'RIGHT CTRL' && event.state === 'DOWN') {//右コントロール　スクショ
 
-        readFileSync(".secret_targetWindows",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
+        readFileSync("targetWindows.secret",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
             windows.forEach((item:Window) => {
                 if(item.appName==tg_window){
                     let image=item.captureImageSync()
@@ -79,7 +79,7 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
 setInterval(() => {
     if(!auto_diff_flag){return}
     
-    readFileSync(".secret_targetAutoWindows",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
+    readFileSync("targetAutoWindows.secret",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
         windows.forEach(async (item:Window,i) => {
             
             if(item.appName==tg_window){
