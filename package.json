@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/node": "^22.13.14",
     "looks-same": "^9.0.1",
+    "microshot": "file:",
     "node-global-key-listener": "^0.3.0",
     "node-screenshots": "^0.2.1",
     "nodemon": "^3.1.9",
