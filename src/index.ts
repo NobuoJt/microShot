@@ -1,17 +1,24 @@
 import * as fs from "fs";
 import { existsSync, mkdir, mkdirSync, readFileSync } from "fs";
 import { readFile } from "fs/promises";
-import { Window } from "node-screenshots";
-import { GlobalKeyboardListener } from 'node-global-key-listener';
-const looksSame =require('looks-same');
+const { createRequire } = require("module");
+const requireFromDisk = createRequire(__filename);
+
+//import { screenshots } from 'node-screenshots';
+const screenshots = requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\node_modules\\node-screenshots\\index.js');
+
+//import { GlobalKeyboardListener } from 'node-global-key-listener';
+const keyboardListener = requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\node_modules\\node-global-key-listener\\build\\index.js');
+//const looksSame =require('looks-same');
+const looksSame =requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\node_modules\\looks-same\\index.js');
 
 const version="1.0.2"
 
 let prevImage=new Map();
 const URL="https://discord.com/api/webhooks/1356111408231747745/w7jY4QqkdUNHprEdaHen_-aC_xg5XkJzSrVdfRxe3TP3DoPmbiu0eOIzjax37qssHoSC"
 
-let windows = Window.all();
-const keyboard = new GlobalKeyboardListener();
+let windows = screenshots.Window.all();
+const keyboard = new keyboardListener.GlobalKeyboardListener();
 let auto_diff_flag=false
 
 console.log(`microShot v${version}`)
@@ -26,7 +33,7 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
         process.exit();
     }
     if (event.name === 'L' && event.state === 'DOWN') {//L ウィンドウリストの表示
-        windows.forEach((item:Window) => {
+        windows.forEach((item:any) => {
             console.table({
                 id: item.id,
                 appName: item.appName,
@@ -44,7 +51,7 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
             });
         });
         
-        windows.forEach((item:Window) => {//アプリ名のみ
+        windows.forEach((item:any) => {//アプリ名のみ
             console.log({
                 appName: item.appName,
             });
@@ -53,11 +60,12 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
     let date=new Date()
     if (event.name === 'RIGHT CTRL' && event.state === 'DOWN') {//右コントロール　スクショ
 
-        readFileSync("targetWindows.secret",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
-            windows.forEach((item:Window) => {
+        readFileSync(__dirname+"/targetWindows.secret",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
+            windows.forEach((item:any) => {
                 if(item.appName==tg_window){
                     let image=item.captureImageSync()
-                    let filename = `pix/${item.appName}_${date.toLocaleString().replace(/\//g,"_").replace(/:/g,"_")}.png`
+                    let filename = `${__dirname}/pix/${item.appName}_${date.toLocaleString().replace(/\//g,"_").replace(/:/g,"_")}.png`
+                    if(!fs.existsSync(`${__dirname}/pix`)){fs.mkdirSync(`${__dirname}/pix`)}
                     fs.writeFileSync(filename, image.toPngSync());//pix以下に保存
                     console.log("saved "+filename)
                 }
@@ -79,8 +87,8 @@ keyboard.addListener((event:any) => {//キーボードイベント割り込み(�
 setInterval(() => {
     if(!auto_diff_flag){return}
     
-    readFileSync("targetAutoWindows.secret",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
-        windows.forEach(async (item:Window,i) => {
+    readFileSync(__dirname+"/targetAutoWindows.secret",{encoding:"utf-8"}).split("\r\n").forEach((tg_window,i,a)=>{
+        windows.forEach(async (item:any,i:Number) => {
             
             if(item.appName==tg_window){
                 let image=item.captureImageSync()
