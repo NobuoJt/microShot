@@ -1,3 +1,3 @@
 @echo off
 
-node src/index.js
+node index.js
