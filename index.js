@@ -46,9 +46,11 @@ var screenshots = requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\
 var keyboardListener = requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\node_modules\\node-global-key-listener\\build\\index.js');
 //const looksSame =require('looks-same');
 var looksSame = requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\node_modules\\looks-same\\index.js');
-var version = "1.0.3_0";
+var version = "1.0.4_0";
 var prevImage = new Map();
-var URL = "https://discord.com/api/webhooks/1356111408231747745/w7jY4QqkdUNHprEdaHen_-aC_xg5XkJzSrVdfRxe3TP3DoPmbiu0eOIzjax37qssHoSC";
+var urlObj = JSON.parse(fs.readFileSync(__dirname + "/url.secret").toString());
+var URL = urlObj.discord;
+console.log(URL);
 var windows = screenshots.Window.all();
 var keyboard = new keyboardListener.GlobalKeyboardListener();
 var auto_diff_flag = false;

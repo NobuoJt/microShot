@@ -1,5 +1,5 @@
 # microShot : screen shot tool
-v1.0.3
+v1.0.4
 
 オフフォーカス、1keyでウィンドウのスクショ画像を撮影。  
 指定秒数ずつ差分をとり差分が大きい場合はdiscordに通知する。
@@ -16,6 +16,7 @@ v1.0.3
 |pix/```{appName}_{YYYY}_{M}_{D} {h}_{m}_{s}```|　画像ファイルが保存される|  
 targetWindows.secret|　キャプチャーするソフト名を羅列  
 targetAutoWindows.secret|　定期キャプチャーするソフト名を羅列  
+url.secret| json形式{"discord":"https://~"}でwebhookのURLを記入
 
 ## usage
 ```node index.js```
@@ -28,6 +29,7 @@ targetAutoWindows.secret|　定期キャプチャーするソフト名を羅列
 
 ### ```F10``` Start diff notice
 - ```targetAutoWindows.secret```の各行とマッチするappNameが対象
+- ```url.secret``` の"discord"フィールドにあるwebhookに投げる。
 - 変化がある場合、Discordに通知(tolerance:5,interval=5000ms)
 - diffチャンネル
 

@@ -12,10 +12,14 @@ const keyboardListener = requireFromDisk('C:\\Users\\user\\Desktop\\開発\\micr
 //const looksSame =require('looks-same');
 const looksSame =requireFromDisk('C:\\Users\\user\\Desktop\\開発\\microShot\\node_modules\\looks-same\\index.js');
 
-const version="1.0.3_0"
+const version="1.0.4_0"
 
 let prevImage=new Map();
-const URL="https://discord.com/api/webhooks/1356111408231747745/w7jY4QqkdUNHprEdaHen_-aC_xg5XkJzSrVdfRxe3TP3DoPmbiu0eOIzjax37qssHoSC"
+
+const urlObj=JSON.parse(fs.readFileSync(__dirname+"/url.secret").toString())
+
+const URL=urlObj.discord
+console.log(URL)
 
 let windows = screenshots.Window.all();
 const keyboard = new keyboardListener.GlobalKeyboardListener();
