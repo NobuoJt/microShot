@@ -1,10 +1,27 @@
 # microShot : screen shot tool
-v1.0.2
+v1.0.3
+
+オフフォーカス、1keyでウィンドウのスクショ画像を撮影。  
+指定秒数ずつ差分をとり差分が大きい場合はdiscordに通知する。
+
+## file setting
+
+
+|||
+|-|-|
+```(root)```  |
+|index.*|ソースファイル|
+|app_onNode.exe |コンパイル後、実行ファイル
+ microShot.bat|実行ファイル|
+|pix/```{appName}_{YYYY}_{M}_{D} {h}_{m}_{s}```|　画像ファイルが保存される|  
+targetWindows.secret|　キャプチャーするソフト名を羅列  
+targetAutoWindows.secret|　定期キャプチャーするソフト名を羅列  
 
 ## usage
-```node src/index.js```
+```node index.js```
 
-### ```L``` Show window List (info by window Table/ appName List)
+### ```L``` Show window List
+- info by window Table/ appName List
 ### ```Right Ctrl``` One shot capture
 - ```targetWindows.secret```の各行とマッチするappNameが対象
 - ファイル名は```pix/{appName}_{YYYY}_{M}_{D} {h}_{m}_{s}```
@@ -16,9 +33,22 @@ v1.0.2
 
 ### ```F9``` Stop diff notice
 
-## index.ts→node実行
+## index.ts→node実行&tscコンパイル
 ```npm start``` init
 ```rs``` リセット
 
-## exe化(moduleが入ってくれない)
-```nexe -i src\index.js -o test.exe -t windows-x64-14.15.3 -r .\node_modules\**```
+## exe化
+nodeの新機能SEAを使う。
+試験機能のため警告が出る。
+
+```npm run compile``` 　```sea-config.json```を参照してスクリプトを注入したnodeを作成。
+
+## script
+
+```
+"build:live": "nodemon --watch 'index.ts' --exec \"ts-node\" index.ts"
+```
+
+```
+"compile": "tsc index.ts & node --experimental-sea-config sea-config.json & powershell -c Copy-Item (command node -Syntax) app_onNode.exe & npx postject app_onNode.exe NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2"
+```
